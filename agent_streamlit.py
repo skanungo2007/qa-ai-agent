@@ -94,22 +94,24 @@ tr:hover { background-color: #f5f5f5; }
         font-size: 14px;
     }
 
-    /* Prevent weird spacing in Landscape mode */
+    /* Prevent weird spacing in Landscape/Portrait */
     .justified-text { 
-        text-align: left !important; /* Justify looks bad on narrow landscape views */
+        text-align: left !important; 
         font-size: 14px; 
     }
 
-    /* Make table scrollable but keep the fixed widths we defined above */
+    /* THE FIX: Force a minimum container width for the table on small screens */
+    /* This prevents the "odd" squished look and brings back the swipe scroll */
     table { 
         display: block; 
         overflow-x: auto; 
+        min-width: 800px !important; /* Forces the table to stay wide enough to read */
     }
     
-    /* Ensure columns don't get TOO squished on mobile while scrolling */
-    th:nth-child(1), td:nth-child(1) { min-width: 60px; }
-    th:nth-child(2), td:nth-child(2) { min-width: 150px; }
-    th:nth-child(4), td:nth-child(4), th:nth-child(5), td:nth-child(5) { min-width: 200px; }
+    /* Keep column proportions stable even during horizontal scroll */
+    th:nth-child(1), td:nth-child(1) { width: 80px !important; }  /* Test ID */
+    th:nth-child(2), td:nth-child(2) { width: 200px !important; } /* Title */
+    th:nth-child(4), td:nth-child(4), th:nth-child(5), td:nth-child(5) { width: 300px !important; } /* Steps/Results */
 }
 </style>
 """, unsafe_allow_html=True)
