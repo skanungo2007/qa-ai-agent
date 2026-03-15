@@ -36,7 +36,7 @@ h1 { color: #1E88E5; padding-bottom: 10px; border-bottom: 2px solid #1E88E5; fon
 h2 { color: #00897B; margin-top: 20px; font-weight: 600; }
 h3 { color: #E53935; margin-top: 15px; font-weight: 600; }
 
-/* Justified text for strategy - Adjusted for better mobile flow */
+/* Justified text for strategy */
 .justified-text { 
     text-align: justify; 
     text-justify: inter-word; 
@@ -45,31 +45,38 @@ h3 { color: #E53935; margin-top: 15px; font-weight: 600; }
     color: #333333;
 }
 
-/* --- FIXED COLUMN WIDTH TABLE STYLING --- */
+/* --- DYNAMIC COLUMN TABLE STYLING --- */
 table { 
     width: 100% !important; 
     border-collapse: collapse; 
     margin: 20px 0; 
     font-size: 15px; 
-    table-layout: fixed; /* Forces the browser to respect our widths */
+    table-layout: auto !important; /* Changed from fixed to auto to fix vertical stretching */
 }
 
-th { background-color: #1E88E5 !important; color: white !important; padding: 12px; text-align: left; }
+th { 
+    background-color: #1E88E5 !important; 
+    color: white !important; 
+    padding: 12px; 
+    text-align: left; 
+    white-space: nowrap; /* Keeps headers from wrapping awkwardly */
+}
+
 td { 
     padding: 10px; 
     border-bottom: 1px solid #ddd; 
     vertical-align: top; 
-    word-wrap: break-word; /* Ensures long words don't break the column */
+    word-wrap: break-word; 
     overflow-wrap: break-word;
-    white-space: normal; /* Enables text wrapping */
+    white-space: normal; 
 }
 
-/* Specific Column Width Allocations */
-th:nth-child(1), td:nth-child(1) { width: 8%; }  /* Test ID: Small */
-th:nth-child(2), td:nth-child(2) { width: 22%; } /* Test Title: Large */
-th:nth-child(3), td:nth-child(3) { width: 15%; } /* Pre-conditions: Medium */
-th:nth-child(4), td:nth-child(4) { width: 27.5%; } /* Steps: Extra Large */
-th:nth-child(5), td:nth-child(5) { width: 27.5%; } /* Expected Result: Extra Large */
+/* Specific Column Proportions using min-width for stability */
+th:nth-child(1), td:nth-child(1) { min-width: 65px; width: 5%; }   /* Test ID */
+th:nth-child(2), td:nth-child(2) { min-width: 150px; width: 20%; }  /* Test Title */
+th:nth-child(3), td:nth-child(3) { min-width: 120px; width: 15%; }  /* Pre-conditions */
+th:nth-child(4), td:nth-child(4) { min-width: 250px; width: 30%; }  /* Steps */
+th:nth-child(5), td:nth-child(5) { min-width: 250px; width: 30%; }  /* Expected Result */
 
 tr:hover { background-color: #f5f5f5; }
 
@@ -82,7 +89,6 @@ tr:hover { background-color: #f5f5f5; }
 .mobile-banner { display: none; }
 
 @media (max-width: 992px) {
-    /* Show mobile banner on phones and small tablets */
     .mobile-banner { 
         display: block !important; 
         background-color: #E3F2FD; 
@@ -94,24 +100,17 @@ tr:hover { background-color: #f5f5f5; }
         font-size: 14px;
     }
 
-    /* Prevent weird spacing in Landscape/Portrait */
     .justified-text { 
         text-align: left !important; 
         font-size: 14px; 
     }
 
-    /* THE FIX: Force a minimum container width for the table on small screens */
-    /* This prevents the "odd" squished look and brings back the swipe scroll */
+    /* Force horizontal scroll on mobile to maintain readability */
     table { 
         display: block; 
         overflow-x: auto; 
-        min-width: 800px !important; /* Forces the table to stay wide enough to read */
+        -webkit-overflow-scrolling: touch;
     }
-    
-    /* Keep column proportions stable even during horizontal scroll */
-    th:nth-child(1), td:nth-child(1) { width: 80px !important; }  /* Test ID */
-    th:nth-child(2), td:nth-child(2) { width: 200px !important; } /* Title */
-    th:nth-child(4), td:nth-child(4), th:nth-child(5), td:nth-child(5) { width: 300px !important; } /* Steps/Results */
 }
 </style>
 """, unsafe_allow_html=True)
@@ -252,11 +251,11 @@ if app_mode == "Generate Test Cases and Test Strategy":
             st.session_state.module1_chat_history = []
             
             with st.status("🧠 QA-360 is analyzing requirements...", expanded=True) as status:
-                progress_bar = st.progress(0, text="Initializing Analysis Engines... (ETA: ~45 seconds)")
+                progress_bar = st.progress(0, text="Initializing Analysis Engines... (ETA: ~60 seconds)")
                 
                 try:
                     st.write("⏳ Parsing document, tickets, and user stories...")
-                    progress_bar.progress(20, text="Cross-referencing multiple data sources... (ETA: ~35 seconds)")
+                    progress_bar.progress(20, text="Cross-referencing multiple data sources... (ETA: ~30 seconds)")
                     time.sleep(0.8)
                     
                     st.write("⏳ Hunting for requirement contradictions...")
@@ -264,7 +263,7 @@ if app_mode == "Generate Test Cases and Test Strategy":
                     time.sleep(0.8)
                     
                     st.write("⏳ Drafting Exhaustive Test Cases...")
-                    progress_bar.progress(75, text="Awaiting AI Architect & Business Analyst... (ETA: ~20-35 seconds depending on complexity)")
+                    progress_bar.progress(75, text="Awaiting AI Architect & Business Analyst... (ETA: ~30-60 seconds depending on complexity)")
                     
                     # --- UPGRADED AI BRAIN: CONTRADICTION ENGINE & PRO QA STANDARDS ---
                     system_instruction = """
@@ -544,17 +543,17 @@ elif app_mode == "Generate Automation Framework (Cucumber/Java)":
                     
                     # Step 2: Setup
                     st.write("⏳ Initializing Base Class and Utilities...")
-                    progress_bar.progress(35, text="Configuring WebDriver & Hooks... (ETA: ~10 seconds)")
+                    progress_bar.progress(35, text="Configuring WebDriver & Hooks... (ETA: ~20 seconds)")
                     time.sleep(0.5)
                     
                     # Step 3: Drafting
                     st.write("⏳ Drafting Feature files and Step Definitions...")
-                    progress_bar.progress(65, text="Mapping Scraped Elements to Locators... (ETA: ~10 seconds)")
+                    progress_bar.progress(65, text="Mapping Scraped Elements to Locators... (ETA: ~20 seconds)")
                     time.sleep(0.5)
                     
                     # Step 4: AI Generation
                     st.write("⏳ Creating Page Objects with Selenium 4 locators...")
-                    progress_bar.progress(85, text="Awaiting AI Architect... (ETA: ~30-60 seconds depending on complexity)")
+                    progress_bar.progress(85, text="Awaiting AI Architect... (ETA: ~30-90 seconds depending on complexity)")
                     
                     system_instruction_code = """
                 You are QA-360, an Expert Automation Architect.
