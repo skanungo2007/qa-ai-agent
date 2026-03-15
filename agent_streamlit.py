@@ -620,9 +620,10 @@ elif app_mode == "Generate Automation Framework (Cucumber/Java)":
                 
                 Then, output the actual `<dependencies>` XML block containing these specific dependencies (use Java 17+, Maven 3.8.5+, Selenium 4+).
                 
-                2. Setup
+                2. Setup 
                 - Install Java 17+ and Maven 3.8.5+.
                 - Open the project in IntelliJ or Eclipse as a Maven project.
+                - Provide instructions regarding how to create the project structure shown in SECTION 10 in IntelliJ and Eclipse
                 
                 3. Execution & Reporting
                 - Option A: IDE (Right-click TestRunner.java and select "Run").
